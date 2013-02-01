@@ -1,0 +1,27 @@
+Angry Businessman
+
+By Brandon Foo, Ten-Young Guh [Period 5], and Nelson Qu
+
+Story:
+	A corporate boss has sold his soul to the devil and decides to take over America. Some employees object, but the boss lays them off and hires corporate thugs to kill them. The angry businessmen decide to fight back!
+
+Compiling Instructions:
+	Check FILES and verify that you have all the required files.
+
+	This game is for Ubuntu only. You will probably have the SDL runtime libraries already. However, to compile, you need to install the SDL development libraries. Install the following packages:
+	
+	libsdl1.2debian
+	libsdl1.2debian-alsa
+	libsdl1.2-dev
+
+	Use any package manager. For example, in terminal, you can enter "sudo apt-get install <package name>". If you do not have sudo access, consult your administrator.
+
+	In the terminal, go to the directory with Makefile and enter "make". Run "Angry Businessman.out".
+
+Game Instructions:
+	Begin in the terminal. You will be prompted whether to go netplay. Enter y or n. If you enter n, you will begin a single player game.
+	If you enter y, you will be prompted whether you are hosting. If not, that means you are joining a game, so enter the host's IPv4 address. The host should be someone you know; ask him/her for the IP address.
+	If you are hosting a game, enter the number of players. Invite your friends and tell them your IP address so that they can join your game.
+	Once the game begins, switch from the terminal to the new window. Use the directional keys to move, Z to punch, and X to jump. If you tap Z while jumping, you will jump kick.
+	The goal is to defeat the boss. However, there are lots of lesser enemies; focus on them first before the boss.
+	Enjoy! If you encounter any problems, consult BUGS and TODO.

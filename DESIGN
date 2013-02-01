@@ -1,0 +1,68 @@
+Members: Ten-Young Guh[Period 5], Brandon Foo, Nelson Qu
+
+<DW>
+This docuemnet needs a lot more information. If you are unsure as to what I'm looking for, take a loot at some of your calssmates' design docs, many of them are pretty good.
+
+Much better gentlemen. I apprecaite the new Design document. 
+Approved
+</DW>
+
+Description:
+	Using a multimedia library for the C language (SDL), we will program a beat 'em up game, akin to Final Fight, Double Dragon, and Streets of Rage. Each level takes place on a single screen, where the players must defeat the boss, aided by lesser enemies.  Up to four players may play at once, via a network.
+
+Usage:
+	Upon running the game, the player will choose in the terminal whether to play online or single-player. If playing online, the player will be asked whether he is hosting or joining the online game. If hosting, the player will type in the number of players. If joining, the player must enter the host's IP address.
+
+	Once the game starts, the players goes from the terminal to a new window. The player will have four directional keys, at least one attack button, and a jump button. They correspond to keys on the keyboard. The player and enemies have health, and each hit takes away some health. The enemy is defeated when his health is depleted, and the player loses a life when his health is depleted.
+
+Technical Design:
+	  It is always good practice to clean up (i.e. close files, free memory) before you exit, even abnormally. Thus, we catch signals like SIGINT and SIGTERM to make sure we clean up even when those signals occur.
+	  We will use bounding box collision detection. Pixel-wise collision is very slow and difficult, so many 2D games tend to interpret characters as rectangles centered on and slightly smaller than their sprites.
+	  We will use structs extensively. Here are some examples:
+
+		  typedef struct {
+		    int x, y,
+		    	vx, vy, vz,
+			az, x_offset;
+		    unsigned int z, health, timer, anim_frame, anim_timer;
+		    attack *att;
+		    char image[32];
+		    enum lorr heading;
+		     _Bool flip;
+		  } person;
+
+	  In the gameplay world, x and y are the horizontal axes, and z is the vertical axis. x from negative to positive is left to right. y from negative to positive is up to down. z is always nonnegative: zero is ground, so z correlates with height. During blitting, both the y and z axes of the gameplay are projected on the y axis of the display.
+	  x_offset is how much the sprite is displaced horizontally from the bounding box. Many moves need to be timed, so there is a timer. heading determines which way the person is facing. enum lorr is either LEFT or RIGHT (hence l_or_r). flip determines whether to flip the sprite when blitting.
+	  We also use person and enemy structs. Were this in Java, person would be the abstract parent class of enemy and player. To simulate polymorphism:
+
+	       * The first member of both an enemy and a player is a person. Therefore, you can safely typecast an enemy or player pointer to a person pointer and treat it as such.
+	       * Given function _foo(player *p, ...), write a macro foo(p, ...) defined as _foo( (player *)p, ...), and make sure _foo is never called directly. Thus, foo looks like a function that takes advantage of polymorphism, rather than a typecasting macro.
+
+	  att is another struct attached to the person. It is with att that a person collides with others.
+
+	      typedef struct{
+	        int x;
+		unsigned int z, w, h, damage;
+		enum {PLAYER, ENEMY} from;
+		_Bool hits[/* number of possible targets */];
+		person *p;
+	      } attack;
+
+	  x is how much the attack is displaced horizontally (left-to-right) from its person, and z is how much it is displaced vertically. The attack must know whether it's for a player or an enemy, so it knows whether its targets are the enemies or players. It keeps track of which targets it has hitten, so that it can't hit the same target during its lifetime. The person will destroy its attack once it finishes attacking.
+	  Because we constantly need to create and destroy memory (i.e. new and dying people, beginning and ending attacks), we will use manual memory management (malloc).
+	  Each level will simply be a collection of enemy entries. Each entry will consist of type, health, and x and y coordinates.
+	  We will use networking for online play. Each player will be a client, and one player will also be the host. The host's server will receive each client's input data and broadcast it to the other clients. The client will use the new input data to adjust the players from other computers. This ensures all clients are in sync.
+	  Each enemy will have an algorithm for reaching and attacking a player. The exact pattern will vary per enemy. Easier enemies will be slower, less powerful, and less aggressive, wherease harder enemies will be faster, more powerful, and more aggressive. They will always face and follow the closest player.
+
+Timeline:
+	1/4: Get started with SDL. (Brandon)
+	1/6: Display a bitmap on the screen. (Ten-Young)
+	1/7: Blit a sprite onto the screen. (Nelson)
+	     Begin coming up with plot, setting, and character designs. (All)
+	1/8: Move a sprite with the directional keys. (Brandon)
+	1/9: Allow the sprite to jump. (Nelson)
+	1/10: Allow the bitmap to scroll as you move left or right. Will loop indefinitely for now. (Ten-Young)
+	1/11: Make an enemy that can be hit, fall to the ground, and die. (Brandon)
+	1/12: Make a simple enemy that slowly stalks the closest player, tries to hit the player at a distance, and walks back. (Nelson)
+	1/13: Finish plot, setting, and character designs. (All)
+	(More TBD)

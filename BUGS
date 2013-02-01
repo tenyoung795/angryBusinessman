@@ -1,0 +1,20 @@
+Buggies!
+
+When a client (not the host) leaves (he exits, not die), everyone else's game ends, too.
+     Fixed 1/28, circa 9 PM
+A dead player stops receiving the alive player's input...
+  ...now a dead client freezes the host.
+  Fixed 1/28, 10:38 PM
+Clicking X on a dead client doesn't work.
+	 False assumption that the dead are incapable of ALL input--they can still exit.
+	 ...now client and host off sync.
+	 Client receives from other clients that don't exist.
+	 All above fixed 1/29, 12:48 AM
+Segfault occurs shortly after a player is attacked.
+	 ...because the player's attack is not set to NULL after being freed.
+	 Fixed 1/30, 2:29 AM
+More than two players can't play together. Causes segfault.
+     Fixed 1/30, 4:14 PM
+The host and the last client respond to their own input, but the others don't.
+    Because all clients were assigned the same playerno.
+    Fixed 1/30, circa 5:30 PM

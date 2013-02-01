@@ -1,0 +1,10 @@
+Todo!
+
+Code the gunman boss and the demonic final boss.
+Code projectiles (gunman's bullets, final boss's huge fists).
+Develop two levels.
+Make multiple players start at different positions.
+Color multiple players differently.
+Display player and enemy health on the window, not in the terminal.
+Display players, enemies, and projectiles by order of y-coordinate.
+Display shadows under the players, enemies, and projectiles.
